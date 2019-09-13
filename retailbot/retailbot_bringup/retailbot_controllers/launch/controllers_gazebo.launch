@@ -1,0 +1,38 @@
+<launch>
+
+<rosparam file="$(find retailbot_controllers)/config/controllers.yaml" command="load"/>
+    
+
+<include  file="$(find retailbot_description)/launch/gazebo.launch" />
+
+
+
+
+<node name="joint_state_publisher" pkg="joint_state_publisher"
+type="joint_state_publisher" ></node>
+
+<node pkg="robot_state_publisher" type="robot_state_publisher"
+ name="robot_state_publisher" output="screen" >
+ <param name="publish_frequency" type="double" value="50.0" />
+ </node>
+
+
+
+<node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" 
+        args=" retailbot_joint_publisher retailbot_velocity_controller" />
+
+
+<node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization"> 
+    <rosparam command="load" file="$(find retailbot_controllers)/config/robot_localization.yaml" />
+  </node>
+
+
+<node pkg="twist_mux" type="twist_mux" name="twist_mux">
+    <rosparam command="load" file="$(find retailbot_controllers)/config/twist_mux.yaml" />
+    <remap from="cmd_vel_out" to="/retailbot_velocity_controller/cmd_vel"/>
+</node>
+
+
+</launch>
+
+

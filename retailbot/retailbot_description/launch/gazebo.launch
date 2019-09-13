@@ -1,0 +1,15 @@
+<launch>
+  
+
+  <param name="robot_description"
+  command="xacro '$(find retailbot_description)/urdf/retailbot_base.urdf.xacro'" />
+
+
+  <node
+    name="spawn_model"
+    pkg="gazebo_ros"
+    type="spawn_model"
+    args="-urdf -param robot_description -model retailbot_base"
+    output="screen" />
+  
+</launch>

@@ -1,0 +1,5 @@
+<launch>
+  <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
+    <rosparam file="$(find retailbot_navigation)/config/gmapping_params.yaml" command="load" />
+  </node>
+</launch>

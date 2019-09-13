@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<launch>
+
+
+  <arg name="map_nav" default="true" />
+  <arg name="mapserver" default="true" />
+  <arg name="rviz" default="true" />
+
+  <!-- Map Server -->
+  <arg name="map" default="$(find retailbot_navigation)/maps/jackal_race.yaml"/>
+  <node if="$(arg map_nav)" name="map_server" pkg="map_server" type="map_server" args="$(arg map)"/>
+
+  <!-- Run AMCL -->
+  <include if="$(arg map_nav)" file="$(find retailbot_navigation)/launch/localization.launch.xml"/>
+
+  <!-- Move Base -->
+  <include if="$(arg map_nav)" file="$(find retailbot_navigation)/launch/move_base.launch.xml"/>
+  <include unless="$(arg map_nav)" file="$(find retailbot_navigation)/launch/move_base_odom.launch"/>
+
+  <!-- RViz with config -->
+  <node if="$(arg rviz)" name="rviz" pkg="rviz" type="rviz" args="-d $(find retailbot_navigation)/rviz/navigation.rviz" />
+
+
+</launch>

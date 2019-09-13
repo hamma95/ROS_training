@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="rviz" default="true" />
+
+
+  <!-- Move Base -->
+  <include file="$(find retailbot_navigation)/launch/move_base_odom.launch"/>
+
+  <!-- RViz with config -->
+  <node if="$(arg rviz)" name="rviz" pkg="rviz" type="rviz" args="-d $(find retailbot_navigation)/rviz/navigation.rviz" />
+
+
+</launch>

@@ -1,0 +1,21 @@
+topics:
+- name    : keyboard
+  topic   : key_vel
+  timeout : 0.25
+  priority: 90
+
+- name    : navigation
+  topic   : nav_vel
+  timeout : 0.25
+  priority: 10
+
+- name    : joystick
+  topic   : joy_vel
+  timeout : 0.25
+  priority: 100
+
+- name    : external
+  topic   : cmd_vel
+  timeout : 0.25
+  priority: 90
+

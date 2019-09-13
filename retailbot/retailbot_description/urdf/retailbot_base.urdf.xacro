@@ -1,0 +1,478 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="retailbot_base">
+
+<xacro:property name="dummy_inertia" value="1e-09"/>
+<xacro:property name="M_PI" value="3.1415926535897931"/>
+
+
+	
+<material name="dark_grey"><color rgba="0.2 0.2 0.2 1.0" /></material>
+<material name="light_grey"><color rgba="0.4 0.4 0.4 1.0" /></material>
+<material name="yellow"><color rgba="0.8 0.8 0.0 1.0" /></material>
+<material name="black"><color rgba="0.15 0.15 0.15 1.0" /></material>
+<material name="blue"><color rgba="0 0.4 1.0 1.0" /></material>
+
+
+<xacro:macro name="wheel" params="prefix reflect *joint_pose">
+	<link
+    name="${prefix}_wheel">
+    <inertial>  
+
+      <mass
+        value="0.1" />
+      <inertia
+        ixx="5.1458e-5" iyy="5.1458e-5" izz="6.125e-5"
+        ixy="0" ixz="0" iyz="0"/>
+
+    </inertial>
+
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://retailbot_description/meshes/${prefix}_wheel.STL" />
+      </geometry>
+      <material name="dark_grey"/>
+        
+    </visual>
+
+
+    <collision>
+      <origin
+        xyz="0 0 ${reflect*0.013}"
+        rpy="0 0 0" />
+      <geometry>
+       <cylinder length="0.026" radius="0.052"/>
+      </geometry>
+    </collision>
+
+  </link>
+
+
+  <joint
+    name="${prefix}_wheel_joint"
+    type="continuous">
+    <xacro:insert_block name="joint_pose" />
+    
+    <parent
+      link="base_link" />
+    <child
+      link="${prefix}_wheel" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+
+  <gazebo reference="${prefix}_wheel">
+      <material>Gazebo/DarkGrey</material>
+  </gazebo>
+
+  <transmission name="${prefix}_wheel_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}_wheel_joint">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}_actuator">
+        <mechanicalReduction>1</mechanicalReduction>
+        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      </actuator>
+    </transmission>
+
+</xacro:macro>
+
+<xacro:macro name="caster" params="prefix reflect *joint_pose">
+  
+<link
+    name="caster${prefix}">
+    <inertial>
+      <origin
+        xyz="-2.77555756156289E-17 5.55111512312578E-17 -6.22577482985859E-05"
+        rpy="0 0 0" />
+      <mass
+        value="0.1" />
+      <inertia
+        ixx="5.1458e-5" iyy="5.1458e-5" izz="6.125e-5"
+        ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://retailbot_description/meshes/caster${prefix}.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.013" radius="0.014"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="caster${prefix}_joint"
+    type="continuous">
+    <xacro:insert_block name="joint_pose" />
+    <parent
+      link="free${prefix}" />
+    <child
+      link="caster${prefix}" />
+    <axis
+      xyz="0 0 ${reflect}*1" />
+  </joint>
+
+</xacro:macro>
+
+
+
+<xacro:macro name="free" params="prefix *joint_pose">
+  <link 
+    name="free${prefix}">
+    <inertial>
+      <origin
+        xyz="-0.000454392731273207 7.23966299104317E-07 0.0171929622748198"
+        rpy="0 0 0" />
+      <mass
+        value="0.1" />
+      <inertia
+        ixx="0.00083" iyy="0.00083" izz="0.000167"
+        ixy="0" ixz="0" iyz="0" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://retailbot_description/meshes/free${prefix}.STL" />
+      </geometry>
+
+      <material name="DarkGrey"/>
+        
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0.02241"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.00518" radius="0.01"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint
+    name="free${prefix}_joint"
+    type="continuous">
+    <xacro:insert_block name="joint_pose" />
+    <parent
+      link="base_link" />
+    <child
+      link="free${prefix}" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+
+</xacro:macro>
+
+
+
+
+ <xacro:macro name="VLP-16" params="parent:=base_link name:=velodyne topic:=/velodyne_points">
+
+    <joint name="${name}_base_mount_joint" type="fixed">
+      <origin
+      xyz="0.1555 0 0.139"
+      rpy="0 0 0" />
+      <parent link="${parent}"/>
+      <child link="${name}_base_link"/>
+    </joint>
+
+    <link name="${name}_base_link">
+      <inertial>
+        <mass value="0.83"/>
+        <origin xyz="0 0 0.03585"/>
+        <inertia ixx="${(0.83 * (3.0*0.0516*0.0516 + 0.0717*0.0717)) / 12.0}" ixy="0" ixz="0"
+          iyy="${(0.83 * (3.0*0.0516*0.0516 + 0.0717*0.0717)) / 12.0}" iyz="0"
+          izz="${0.5 * 0.83 * (0.0516*0.0516)}"/>
+      </inertial>
+      <visual>
+        <geometry>
+          <mesh filename="package://velodyne_description/meshes/VLP16_base_1.dae" />
+        </geometry>
+      </visual>
+      <visual>
+        <geometry>
+          <mesh filename="package://velodyne_description/meshes/VLP16_base_2.dae" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0.03585"/>
+        <geometry>
+          <cylinder radius="0.0516" length="0.0717"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${name}_base_scan_joint" type="fixed" >
+      <origin xyz="0 0 0.0377" rpy="0 0 0" />
+      <parent link="${name}_base_link" />
+      <child link="${name}"/>
+    </joint>
+
+    <link name="${name}">
+      <inertial>
+        <mass value="0.01"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1e-7" ixy="0" ixz="0" iyy="1e-7" iyz="0" izz="1e-7"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 -0.0377" />
+        <geometry>
+          <mesh filename="package://velodyne_description/meshes/VLP16_scan.dae" />
+        </geometry>
+      </visual>
+    </link>
+
+</xacro:macro>
+
+
+
+
+
+
+
+
+
+
+
+  <link name="base_footprint">
+   </link>
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0.00047861 -8.1185E-16 0.055391"
+        rpy="0 0 0" />
+      <mass
+        value="4.8031" />
+      <inertia
+        ixx="0.010896"
+        ixy="-1.8033E-18"
+        ixz="-0.00012767"
+        iyy="0.011096"
+        iyz="-5.4092E-20"
+        izz="0.0003662" />
+    
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://retailbot_description/meshes/base_link.STL" />
+      </geometry>
+      <material name="blue"/>
+        
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0.0545"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.109" radius="0.25"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="base_link_joint" type="fixed">
+     <parent link="base_footprint"/>
+     <child link="base_link"/>
+   </joint>
+
+
+  <xacro:wheel prefix="right" reflect="-1" >
+    <origin
+      xyz="-0.00011132 -0.1493 0.017424"
+      rpy="-1.5708 -0.62853 0" />
+  </xacro:wheel>
+
+  <xacro:wheel prefix="left" reflect="1" >
+    <origin
+      xyz="0.00011132 0.1493 0.017424"
+      rpy="-1.5708 -0.62853 0" />
+  </xacro:wheel>
+  
+  <xacro:free prefix="1">
+    <origin
+      xyz="-0.1785 0 -0.025"
+      rpy="0 0 -2.7786" />   
+
+  </xacro:free> 
+
+  <xacro:caster prefix="1" reflect="1">
+    <origin
+      xyz="-0.0065 0 0.00442000000000015"
+      rpy="-1.5707963267949 0.304078142895362 -3.14159265358979" />
+
+  </xacro:caster> 
+
+
+  <xacro:free prefix="">
+    <origin
+      xyz="0.1785 0 -0.025"
+      rpy="0 0 2.2359" />
+
+  </xacro:free> 
+
+
+  <xacro:caster prefix="" reflect="-1">
+    <origin
+      xyz="-0.0065 0 0.00442"
+      rpy="-1.5708 -0.44625 -7.9999E-16" />
+
+  </xacro:caster> 
+
+
+  <link name="imu_link">
+    <inertial>
+      <mass value="0.001"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="${dummy_inertia}" ixy="0.0" ixz="0.0" iyy="${dummy_inertia}" iyz="0.0" izz="${dummy_inertia}"/>
+    </inertial>
+  </link>
+
+
+  <joint name="imu_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="imu_link" />
+  </joint>
+
+
+<link
+    name="laser">
+    <inertial>
+      <origin
+        xyz="0.00781357707654733 -9.06526008550047E-05 0.00659313417291452"
+        rpy="0 0 0" />
+      <mass
+        value="0.0835552065247727" />
+      <inertia
+        ixx="4.286212790213E-06"
+        ixy="-6.03360746189324E-08"
+        ixz="1.94532155948423E-06"
+        iyy="5.16583781965134E-06"
+        iyz="1.32813368971549E-07"
+        izz="8.87863705765745E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://retailbot_description/meshes/laser.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0.015 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0.11 0.07128 0.05839"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="laser_joint"
+    type="fixed">
+    <origin
+      xyz="0.1555 0 0.139"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="laser" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+
+
+  
+  <!--<VLP-16 parent="base_link" name="velodyne" topic="/velodyne_points">
+    
+  </VLP-16>
+-->
+
+<!--
+  <link
+    name="stage1">
+    <inertial>
+      <origin
+        xyz="3.46944695195361E-17 -0.00104121312705759 0.00242617407859658"
+        rpy="0 0 0" />
+      <mass
+        value="2.06050296365951" />
+      <inertia
+        ixx="0.000245413112888303"
+        ixy="-2.8740506719259E-19"
+        ixz="5.80293458236042E-19"
+        iyy="0.000121184452565688"
+        iyz="-2.50629797364438E-05"
+        izz="0.000293582872490798" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://retailbot_description/meshes/stage1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.004" radius="0.2466"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="stage1_joint"
+    type="fixed">
+    <origin
+      xyz="0 0 0.193"
+      rpy="3.1416 1.1102E-14 -1.5708" />
+    <parent
+      link="base_link" />
+    <child
+      link="stage1" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+-->
+
+<xacro:include filename="$(find retailbot_description)/urdf/retailbot_base.gazebo" />
+
+</robot>

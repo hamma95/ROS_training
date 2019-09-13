@@ -1,0 +1,547 @@
+<robot
+  name="retailbot_description">
+
+  <link name="dummy">
+   </link>
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0.00047861 -8.1185E-16 0.055391"
+        rpy="0 0 0" />
+      <mass
+        value="4.8031" />
+      <inertia
+        ixx="0.010896"
+        ixy="-1.8033E-18"
+        ixz="-0.00012767"
+        iyy="0.011096"
+        iyz="-5.4092E-20"
+        izz="0.0003662" />
+    
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://retailbot_description/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0.0545"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.109" radius="0.25"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="dummy_joint" type="fixed">
+     <parent link="dummy"/>
+     <child link="base_link"/>
+   </joint>
+
+  <link
+    name="right_wheel">
+    <inertial>
+      <origin
+        xyz="-5.55111512312578E-17 1.11022302462516E-16 -0.013"
+        rpy="0 0 0" />
+      <mass
+        value="0.1" />
+      <inertia
+        ixx="5.1458e-5" iyy="5.1458e-5" izz="6.125e-5"
+        ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://retailbot_description/meshes/right_wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 -0.013"
+        rpy="0 0 0" />
+      <geometry>
+       <cylinder length="0.026" radius="0.052"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="right_wheel_joint"
+    type="continuous">
+    <origin
+      xyz="-0.00011132 -0.1493 0.017424"
+      rpy="-1.5708 -0.62853 -1.1215E-29" />
+    <parent
+      link="base_link" />
+    <child
+      link="right_wheel" />
+    <axis
+      xyz="0 0 -1" />
+  </joint>
+  <link
+    name="left_wheel">
+    <inertial>
+      <origin
+        xyz="0 -5.55111512312578E-17 0.013"
+        rpy="0 0 0" />
+      <mass
+        value="0.1" />
+      <inertia
+        ixx="5.1458e-5" iyy="5.1458e-5" izz="6.125e-5"
+		ixy="0" ixz="0" iyz="0" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://retailbot_description/meshes/left_wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0.013"
+        rpy="0 0 0" />
+      <geometry>
+        
+        <cylinder length="0.026" radius="0.052"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="left_wheel_joint"
+    type="continuous">
+    <origin
+      xyz="0.00011132 0.1493 0.017424"
+      rpy="1.5708 -0.72349 3.1416" />
+    <parent
+      link="base_link" />
+    <child
+      link="left_wheel" />
+    <axis
+      xyz="0 0 -1" />
+  </joint>
+  <link
+    name="free1">
+    <inertial>
+      <origin
+        xyz="-0.000454392731273207 7.23966299104317E-07 0.0171929622748198"
+        rpy="0 0 0" />
+      <mass
+        value="0.1" />
+      <inertia
+        ixx="0.00083" iyy="0.00083" izz="0.000167"
+        ixy="0" ixz="0" iyz="0" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://retailbot_description/meshes/free1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0.02241"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.00518" radius="0.01"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="free1_joint"
+    type="continuous">
+    <origin
+      xyz="-0.1785 0 -0.025"
+      rpy="0 0 -2.7786" />
+    <parent
+      link="base_link" />
+    <child
+      link="free1" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="caster1">
+    <inertial>
+      <origin
+        xyz="5.55111512312578E-17 0 -6.22577482985581E-05"
+        rpy="0 0 0" />
+      <mass
+        value="0.1" />
+      <inertia
+        ixx="5.1458e-5" iyy="5.1458e-5" izz="6.125e-5"
+        ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://retailbot_description/meshes/caster1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+         <cylinder length="0.013" radius="0.014"/>
+
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="caster1_joint"
+    type="continuous">
+    <origin
+      xyz="-0.00650000000000006 0 0.00442000000000015"
+      rpy="-1.5707963267949 0.304078142895362 -3.14159265358979" />
+    <parent
+      link="free1" />
+    <child
+      link="caster1" />
+    <axis
+      xyz="0 0 -1" />
+  </joint>
+  <link
+    name="free">
+    <inertial>
+      <origin
+        xyz="-0.000451943330557113 8.4985915793645E-07 0.0171930731169243"
+        rpy="0 0 0" />
+      <mass
+        value="0.1" />
+      <inertia
+        ixx="0.00083" iyy="0.00083" izz="0.000167"
+        ixy="0" ixz="0" iyz="0" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://retailbot_description/meshes/free.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0.02241"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.00518" radius="0.01"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="free_joint"
+    type="continuous">
+    <origin
+      xyz="0.1785 0 -0.025"
+      rpy="0 0 2.2359" />
+    <parent
+      link="base_link" />
+    <child
+      link="free" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="caster">
+    <inertial>
+      <origin
+        xyz="-2.77555756156289E-17 5.55111512312578E-17 -6.22577482985859E-05"
+        rpy="0 0 0" />
+      <mass
+        value="0.1" />
+      <inertia
+        ixx="5.1458e-5" iyy="5.1458e-5" izz="6.125e-5"
+        ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://retailbot_description/meshes/caster.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.013" radius="0.014"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="caster_joint"
+    type="continuous">
+    <origin
+      xyz="-0.0065 0 0.00442"
+      rpy="-1.5708 -0.44625 -7.9999E-16" />
+    <parent
+      link="free" />
+    <child
+      link="caster" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+
+
+<transmission name="left_wheel_transmission">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="left_wheel_joint">
+    <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>  
+  </joint>
+  <actuator name="left_wheel_actuator">
+    <mechanicalReduction>1</mechanicalReduction>
+    <hardwareInterface>VelocityJointInterface</hardwareInterface>
+  </actuator>
+</transmission>
+
+
+<transmission name="right_wheel_transmission">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="right_wheel_joint">
+    <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>  
+  </joint>
+  <actuator name="right_wheel_actuator">
+    <mechanicalReduction>1</mechanicalReduction>
+    <hardwareInterface>VelocityJointInterface</hardwareInterface>
+  </actuator>
+</transmission>
+
+
+  <link
+    name="imu">
+    <inertial>
+      <origin
+        xyz="0 1.38777878078145E-17 0.00150000000000006"
+        rpy="0 0 0" />
+      <mass
+        value="0.00248775299938452" />
+      <inertia
+        ixx="0"
+        ixy="0"
+        ixz="0"
+        iyy="0"
+        iyz="0"
+        izz="0" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://retailbot_description/meshes/imu.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://retailbot_description/meshes/imu.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="imu_joint"
+    type="fixed">
+    <origin
+      xyz="0 0 0.193"
+      rpy="0 0 1.5708" />
+    <parent
+      link="base_link" />
+    <child
+      link="imu" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="laser">
+    <inertial>
+      <origin
+        xyz="0.00781357707654733 -9.06526008550047E-05 0.00659313417291452"
+        rpy="0 0 0" />
+      <mass
+        value="0.0835552065247727" />
+      <inertia
+        ixx="4.286212790213E-06"
+        ixy="-6.03360746189324E-08"
+        ixz="1.94532155948423E-06"
+        iyy="5.16583781965134E-06"
+        iyz="1.32813368971549E-07"
+        izz="8.87863705765745E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://retailbot_description/meshes/laser.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0.015 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0.11 0.07128 0.05839"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="laser_joint"
+    type="fixed">
+    <origin
+      xyz="0.1555 0 0.139"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="laser" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="stage1">
+    <inertial>
+      <origin
+        xyz="3.46944695195361E-17 -0.00104121312705759 0.00242617407859658"
+        rpy="0 0 0" />
+      <mass
+        value="2.06050296365951" />
+      <inertia
+        ixx="0.000245413112888303"
+        ixy="-2.8740506719259E-19"
+        ixz="5.80293458236042E-19"
+        iyy="0.000121184452565688"
+        iyz="-2.50629797364438E-05"
+        izz="0.000293582872490798" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://retailbot_description/meshes/stage1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.004" radius="0.2466"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="stage1_joint"
+    type="fixed">
+    <origin
+      xyz="0 0 0.193"
+      rpy="3.1416 1.1102E-14 -1.5708" />
+    <parent
+      link="base_link" />
+    <child
+      link="stage1" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+
+
+
+<gazebo reference="base_link">
+	<kp>1000000.0</kp>
+	<kd>1000000.0</kd>
+	<mu1>10.0</mu1>
+	<mu2>10.0</mu2>
+    <turnGravityOff>false</turnGravityOff>
+  </gazebo>
+
+
+
+
+<gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/</robotNamespace>
+    </plugin>
+  </gazebo>
+
+
+
+</robot>
