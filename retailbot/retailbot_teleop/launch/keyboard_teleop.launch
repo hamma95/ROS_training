@@ -1,17 +1,14 @@
 <launch>
 
-<arg name='linear_scale' default='0.1'/>
-<arg name='angular_scale' default='0.1'/>
+
 
 <node 
-name="key_publisher"
-pkg="retailbot_teleop"
-type="key_publisher.py"/>
+name=""
+pkg=""
+type=""/>
 
 
 <node name="keys_to_twist" type="keys_to_twist_with_parameters.py" pkg="retailbot_teleop">
-<param name='angular_scale' value="$(arg angular_scale)"/>
-<param name = 'linear_scale' value="$(arg linear_scale)"/>
 <remap from ="cmd_vel" to="key_vel"/>
 </node>
 
